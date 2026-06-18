@@ -1,0 +1,17 @@
+[
+  {
+    "id": "orb-001",
+    "source": "Galxe",
+    "title": "Orb Campaign",
+    "description": "Completa la campagna Orb",
+    "url": "https://...",
+    "score": 9,
+    "cost": 0,
+    "timeMinutes": 5,
+    "tags": [
+      "Airdrop",
+      "Solana"
+    ],
+    "expiresAt": "2026-09-01"
+  }
+]
