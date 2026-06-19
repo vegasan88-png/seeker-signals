@@ -1,17 +1,15 @@
 [
   {
     "id": "orb-001",
-    "source": "Galxe",
+    "category": "airdrop",
     "title": "Orb Campaign",
     "description": "Completa la campagna Orb",
-    "url": "https://...",
-    "score": 9,
-    "cost": 0,
-    "timeMinutes": 5,
-    "tags": [
-      "Airdrop",
-      "Solana"
-    ],
-    "expiresAt": "2026-09-01"
+    "hoursLeft": 72,
+    "reward": "Potential Airdrop",
+    "action": {
+      "label": "Apri Galxe",
+      "kind": "external",
+      "target": "https://galxe.com"
+    }
   }
 ]
