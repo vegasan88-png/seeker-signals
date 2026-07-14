@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#07110f" />
+  <meta name="description" content="Seeker Radar helps Solana Mobile and Seeker users monitor reward signals, ecosystem updates and wallet readiness with safer link handling." />
+
+  <title>Seeker Radar — Signals, rewards and wallet readiness</title>
+  <link rel="canonical" href="https://vegasan88-png.github.io/seeker-signals/" />
+  <link rel="icon" type="image/png" href="app-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Seeker Radar" />
+  <meta property="og:description" content="Track Seeker and Solana Mobile reward signals with source checks, wallet readiness and safer link handling." />
+  <meta property="og:url" content="https://vegasan88-png.github.io/seeker-signals/" />
+  <meta property="og:image" content="https://vegasan88-png.github.io/seeker-signals/social-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050b10;
+      --surface: rgba(13, 24, 30, 0.78);
+      --surface-strong: #0b151b;
+      --line: rgba(148, 163, 184, 0.17);
+      --text: #f4f8f7;
+      --muted: #a4b4b0;
+      --green: #39f5ad;
+      --green-dark: #102d25;
+      --amber: #ffc247;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(26, 183, 126, 0.14), transparent 28rem),
+        radial-gradient(circle at 90% 24%, rgba(34, 211, 238, 0.08), transparent 25rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(calc(100% - 40px), var(--max));
+      margin-inline: auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 84px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      font-size: 0.94rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    nav { display: flex; gap: 28px; }
+
+    nav a {
+      color: var(--muted);
+      font-size: 0.91rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: color 160ms ease;
+    }
+
+    nav a:hover, nav a:focus-visible { color: var(--green); }
+
+    main { overflow: hidden; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      align-items: center;
+      gap: clamp(42px, 7vw, 88px);
+      min-height: 640px;
+      padding: 72px 0 96px;
+    }
+
+    .eyebrow, .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(57, 245, 173, 0.25);
+      border-radius: 999px;
+      color: #c8ffeb;
+      background: rgba(16, 45, 37, 0.72);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow { padding: 8px 13px; }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 15px var(--green);
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 24px 0 22px;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--green);
+      text-shadow: 0 0 32px rgba(57, 245, 173, 0.2);
+    }
+
+    .hero-copy > p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.035);
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .button:hover, .button:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(57, 245, 173, 0.55);
+      background: rgba(57, 245, 173, 0.08);
+    }
+
+    .button.primary {
+      border-color: var(--green);
+      color: #02150f;
+      background: var(--green);
+      box-shadow: 0 10px 34px rgba(57, 245, 173, 0.16);
+    }
+
+    .button.primary:hover, .button.primary:focus-visible { background: #73f9c7; }
+
+    .hero-art {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-art::before {
+      content: "";
+      position: absolute;
+      inset: 12% 5% -8%;
+      z-index: -1;
+      border-radius: 50%;
+      background: rgba(34, 220, 151, 0.18);
+      filter: blur(70px);
+    }
+
+    .preview {
+      overflow: hidden;
+      margin: 0;
+      border: 1px solid rgba(57, 245, 173, 0.27);
+      border-radius: 26px;
+      background: var(--surface-strong);
+      box-shadow: 0 32px 100px rgba(0, 0, 0, 0.42);
+      transform: rotate(1.5deg);
+    }
+
+    .preview img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .preview figcaption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 15px 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 750;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      padding: 5px 9px;
+      color: var(--green);
+      background: var(--green-dark);
+    }
+
+    section { padding: 98px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 38px;
+    }
+
+    h2 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    .section-head p {
+      max-width: 450px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      min-height: 250px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(17, 30, 37, 0.9), rgba(8, 16, 21, 0.76));
+    }
+
+    .card-number {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(57, 245, 173, 0.25);
+      border-radius: 11px;
+      color: var(--green);
+      background: rgba(57, 245, 173, 0.06);
+      font-size: 0.75rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+    }
+
+    .card h3 {
+      margin: 48px 0 10px;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+
+    .trust {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: clamp(40px, 8vw, 96px);
+      align-items: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .radar-mark {
+      position: relative;
+      width: min(100%, 380px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(57, 245, 173, 0.45);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 24%, rgba(148, 163, 184, 0.24) 24.5%, transparent 25.5%, transparent 49%, rgba(148, 163, 184, 0.2) 49.5%, transparent 50.5%),
+        conic-gradient(from 0deg, rgba(57, 245, 173, 0.12) 0 14%, transparent 14% 100%);
+      box-shadow: inset 0 0 70px rgba(57, 245, 173, 0.04);
+    }
+
+    .radar-mark::before, .radar-mark::after {
+      content: "";
+      position: absolute;
+      background: rgba(148, 163, 184, 0.28);
+    }
+
+    .radar-mark::before { top: 0; bottom: 0; left: 50%; width: 1px; }
+    .radar-mark::after { top: 50%; right: 0; left: 0; height: 1px; }
+
+    .sweep {
+      position: absolute;
+      top: calc(50% - 1px);
+      left: 50%;
+      width: 42%;
+      height: 2px;
+      background: var(--green);
+      box-shadow: 0 0 15px rgba(57, 245, 173, 0.7);
+      transform: rotate(-38deg);
+      transform-origin: left center;
+    }
+
+    .sweep::before, .sweep::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border: 2px solid #d5fff0;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px var(--green);
+    }
+
+    .sweep::before { left: -6px; top: -5px; }
+    .sweep::after { right: 10%; top: -5px; }
+
+    .trust-copy > p { max-width: 610px; color: var(--muted); }
+
+    .checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 30px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checks li {
+      position: relative;
+      padding-left: 23px;
+      color: #dbe7e3;
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .checks li::before {
+      content: "";
+      position: absolute;
+      top: 0.56em;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(57, 245, 173, 0.6);
+    }
+
+    .contact {
+      padding-top: 52px;
+      padding-bottom: 72px;
+    }
+
+    .contact-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 36px;
+      padding: clamp(28px, 5vw, 54px);
+      border: 1px solid rgba(57, 245, 173, 0.25);
+      border-radius: 22px;
+      background: linear-gradient(125deg, rgba(25, 69, 55, 0.46), rgba(9, 18, 23, 0.88) 60%);
+    }
+
+    .contact-panel p { margin: 8px 0 0; color: var(--muted); }
+
+    footer {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 30px 0 48px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    footer p { max-width: 680px; margin: 0; }
+
+    .footer-links { display: flex; gap: 22px; white-space: nowrap; }
+    .footer-links a:hover, .footer-links a:focus-visible { color: var(--green); }
+
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 54px; }
+      .hero-art { max-width: 660px; }
+      .features { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+      .card h3 { margin-top: 28px; }
+      .trust { grid-template-columns: 1fr; }
+      .radar-mark { width: 300px; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 18px; }
+    }
+
+    @media (max-width: 600px) {
+      .shell { width: min(calc(100% - 28px), var(--max)); }
+      header { min-height: 72px; }
+      nav a:first-child { display: none; }
+      nav { gap: 16px; }
+      h1 { font-size: clamp(2.9rem, 17vw, 4.5rem); }
+      section { padding: 72px 0; }
+      .checks { grid-template-columns: 1fr; }
+      .contact-panel, footer { align-items: stretch; flex-direction: column; }
+      .contact-panel .button { width: 100%; }
+      .footer-links { white-space: normal; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Seeker Radar",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Android",
+      "url": "https://vegasan88-png.github.io/seeker-signals/",
+      "image": "https://vegasan88-png.github.io/seeker-signals/app-icon.png",
+      "description": "An independent informational companion for Solana Mobile and Seeker users."
+    }
+  </script>
+</head>
+<body>
+  <header class="shell">
+    <a class="brand" href="./" aria-label="Seeker Radar home">
+      <img src="app-icon.png" alt="" width="38" height="38" />
+      <span>Seeker Radar</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#features">Features</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="shell hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Built for Seeker workflows</span>
+        <h1>Find the signal.<span>Verify the source.</span></h1>
+        <p>Seeker Radar helps Solana Mobile and Seeker users monitor reward signals, ecosystem updates and wallet readiness—all in one mobile-first utility.</p>
+        <div class="actions">
+          <span class="button primary" aria-label="Available on Solana dApp Store">Available on Solana dApp Store</span>
+          <a class="button" href="#features">Explore features</a>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-label="Seeker Radar app artwork">
+        <figure class="preview">
+          <img src="social-preview.png" alt="Seeker Radar interface artwork with a radar scan" width="1200" height="600" />
+          <figcaption>
+            <span>Solana Mobile utility</span>
+            <span class="status">Non-custodial</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <section class="shell" id="features">
+      <div class="section-head">
+        <h2>Clearer context for every opportunity.</h2>
+        <p>Operational signals stay separate from general news, so you can focus on relevant requirements and official sources.</p>
+      </div>
+
+      <div class="features">
+        <article class="card">
+          <span class="card-number">01</span>
+          <h3>Monitor operational signals</h3>
+          <p>Track active campaigns, claims, boosts and dApp opportunities with source and eligibility context.</p>
+        </article>
+        <article class="card">
+          <span class="card-number">02</span>
+          <h3>Check wallet readiness</h3>
+          <p>Review public on-chain information such as SOL balance, Genesis Token visibility and recent activity.</p>
+        </article>
+        <article class="card">
+          <span class="card-number">03</span>
+          <h3>Open links more safely</h3>
+          <p>Missing, broken or unverified action links are not presented as trusted actions. Always verify before connecting.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell trust">
+      <div class="radar-mark" aria-hidden="true"><span class="sweep"></span></div>
+      <div class="trust-copy">
+        <span class="eyebrow">You remain in control</span>
+        <h2>Informational and non-custodial by design.</h2>
+        <p>Seeker Radar does not hold funds, request seed phrases, ask for private keys or sign transactions for you. Verify every signal through official project sources before taking action.</p>
+        <ul class="checks">
+          <li>No account required</li>
+          <li>No seed phrase access</li>
+          <li>Public wallet data only</li>
+          <li>Independent source checks</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="shell contact" id="support">
+      <div class="contact-panel">
+        <div>
+          <h2>Need support?</h2>
+          <p>Questions about Seeker Radar, privacy or app safety are welcome.</p>
+        </div>
+        <a class="button primary" href="mailto:info.seekeradar@gmail.com">info.seekeradar@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <p>© 2026 Seeker Radar. An independent informational tool; not affiliated with or endorsed by Solana Mobile or any third-party project. Not financial, legal, tax or investment advice.</p>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+    </div>
+  </footer>
+</body>
+</html>
